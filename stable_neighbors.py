@@ -14,9 +14,9 @@ def replace_color(result, color, count):
 
 def solve(N, R, O, Y, G, B, V):
     # Check if it's possible for mixed colors to exist
-    if O > B or G > R or V > Y or 
-            (O == B and B > O and (Y > 0 or R > 0)) or
-            (G == R and R > 0 and (Y > 0 or B > 0)) or
+    if O > B or G > R or V > Y or \
+            (O == B and B > O and (Y > 0 or R > 0)) or \
+            (G == R and R > 0 and (Y > 0 or B > 0)) or \
             (V == Y and Y > 0 and (R > 0 or B > 0)):
         return 'IMPOSSIBLE'
     # Merge R&G, Y&V, B&O and update R, Y, B 
