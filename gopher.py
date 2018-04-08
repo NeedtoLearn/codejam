@@ -1,6 +1,8 @@
 import sys
 
 def solve(A):
+    # Fix number of rows to be 4, 
+    # then iterate util find solution.
     for r in range(2, 4):
         for c in range(2, A // 4):
             print(r, c)

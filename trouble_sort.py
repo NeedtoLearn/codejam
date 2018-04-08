@@ -1,14 +1,7 @@
 def find_error(N, V):
     # Divide V into even and odd indexes list, and sort them
-    even = []
-    odd = []
-    for i in range(N):
-        if i % 2 == 0:
-            even.append(V[i])
-        else:
-            odd.append(V[i])
-    even.sort()
-    odd.sort()
+    even = sorted(V[::2])
+    odd = sorted(V[1::2])
     # Merge even and odd indexes list and look for error
     for i in range(N):
         if i % 2 == 0:
