@@ -9,6 +9,11 @@ def cal_per(votes, N):
         return main + 1
     return main
 
+def _sanitize_remain(remain):
+    # If remain >= 5 makes it 0 to ignore them because 
+    # they don't need more vote to be rounded up. 
+    return remain if remain < 5 else 0
+
 def find_max_percentage(N, C):
     voted = sum(C)
     # Check if remain of 1/N is more than 5,
@@ -24,10 +29,8 @@ def find_max_percentage(N, C):
         # Sort C in non-decreasing order of remain in percentage, 
         # tricky part: if remain >= 5 make it 0 to ignore them 
         # because they don't need more vote to be rounded up. 
-        C.sort(
-            key=lambda c: cal_remain(c, N) if cal_remain(c, N) < 5 else 0,
-            reverse=True)
-        if cal_remain(C[0], N) + cal_remain(1, N) >= 5:
+        C.sort(key=lambda c: _sanitize_remain(cal_remain(c, N)), reverse=True)
+        if C[0] > 0 and cal_remain(C[0], N) + cal_remain(1, N) >= 5:
             C[0] += 1
         else:
             C.append(1)
