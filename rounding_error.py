@@ -10,9 +10,9 @@ def cal_per(votes, N):
     return main
 
 def _sanitize_remain(remain):
-    # If remain >= 5 makes it 0 to ignore them because 
-    # they don't need more vote to be rounded up. 
-    return remain if remain < 5 else 0
+    # If remain >= 5 makes it -1 to ignore them because
+    # they don't need more vote to be rounded up.
+    return remain if remain < 5 else -1
 
 def find_max_percentage(N, C):
     voted = sum(C)
@@ -20,17 +20,17 @@ def find_max_percentage(N, C):
     # If so, make each left over votes for new language.
     if cal_remain(1, N) >= 5:
         return sum(cal_per(c, N) for c in C) + (N - voted) * cal_per(1, N)
-    # Consider each left over to see if they should 
-    # vote for an existing language or new one. 
-    # If it can make percentage of existing language round up, 
+    # Consider each left over to see if they should
+    # vote for an existing language or new one.
+    # If it can make percentage of existing language round up,
     # then vote for that language. Otherwise, vote for new language.
     for _ in range(N - voted):
         # TODO: use heap to improve efficieny from O(N2logN) to O(NlogN)
-        # Sort C in non-decreasing order of remain in percentage, 
-        # tricky part: if remain >= 5 make it 0 to ignore them 
-        # because they don't need more vote to be rounded up. 
+        # Sort C in non-decreasing order of remain in percentage.
         C.sort(key=lambda c: _sanitize_remain(cal_remain(c, N)), reverse=True)
-        if C[0] > 0 and cal_remain(C[0], N) + cal_remain(1, N) >= 5:
+        # If there still language in C need more votes to round up,
+        # then increase it votes; otherwise, vote for new language.
+        if C[0] >= 0:
             C[0] += 1
         else:
             C.append(1)
