@@ -11,7 +11,8 @@ def solve(N, A):
         indexes = [(r, c) for r, c in enumerate(col) if c in exists]
         change_rows.append(indexes)
     for row in change_rows:
-        pass
+        for c, val in row:
+            
 
 T = int(input())
 for c in range(1, T+1):
