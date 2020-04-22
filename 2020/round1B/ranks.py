@@ -14,8 +14,10 @@ def perform_action(R, S, ranks, num_actions, actions):
     # Now looks for B_end to match with A_start
     found = False
     for i in range(1, R * S):
+        # Skip items with same rank as A_start
         if not found and ranks[i] != ranks[A_start]:
-            found = True 
+            found = True
+        # Now look for B_end
         if found and ranks[i] == ranks[A_start]:
             B_end = i
             R_start = i + 1
@@ -40,17 +42,6 @@ def perform_action(R, S, ranks, num_actions, actions):
     new_ranks = ranks[A_end+1:B_end+1] + ranks[A_start:A_end+1] + ranks[R_start:]
     perform_action(R, S, new_ranks, num_actions + 1, actions)
 
-def verify(actions, R, S):
-    # Initial ranks of the deck
-    ranks = [r for r in range(1, R + 1)] * S
-    sorted_ranks = sorted(ranks)
-    for A, B in actions:
-        ranks = ranks[A:A+B] + ranks[:A] + ranks[A+B:]
-    if ranks != sorted_ranks:
-        print(ranks)
-        print(R, S, len(actions))
-        exit()
-
 T = int(input())
 for t in range(1, T + 1):
     R, S = map(int, input().split())
@@ -71,7 +62,6 @@ def verify():
             # Solve problem and get actions
             actions = []
             perform_action(R, S, ranks, 0, actions)
-            verify(actions, R, S)
             # Verify actions
             for A, B in actions:
                 ranks = ranks[A:A+B] + ranks[:A] + ranks[A+B:]
